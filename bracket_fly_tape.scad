@@ -1,0 +1,21 @@
+module bracket_ring()
+{
+    INNER_RADIUS=10;
+    THICKNESS=4;
+    THICKNESS_ARM=10;
+    HEIGHT=7;
+    ARM_LENGTH1=5;
+    ARM_LENGTH2=5;
+    ARM_LENGTH3=50;//Protrusion
+    difference(){
+        cylinder(r=INNER_RADIUS+THICKNESS/2,h=HEIGHT,center=true);
+        cylinder(r=INNER_RADIUS,h=HEIGHT+0.1,center=true);
+    }
+    translate([0,INNER_RADIUS+ARM_LENGTH1/2,0])cube([THICKNESS_ARM,ARM_LENGTH1,HEIGHT],center=true);
+    translate([0,-INNER_RADIUS-ARM_LENGTH2/2,0])cube([THICKNESS_ARM,ARM_LENGTH2,HEIGHT],center=true);
+    difference(){
+    translate([0,INNER_RADIUS+ARM_LENGTH1+ARM_LENGTH3/2,0])cube([THICKNESS,ARM_LENGTH3,HEIGHT],center=true);
+    translate([0,INNER_RADIUS+ARM_LENGTH1+ARM_LENGTH3/2+ARM_LENGTH3/4,HEIGHT/4])cube([THICKNESS+0.1,THICKNESS+0.1,HEIGHT/2+0.1],center=true);
+    }
+}
+bracket_ring();
