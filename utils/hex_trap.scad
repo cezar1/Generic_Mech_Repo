@@ -1,3 +1,64 @@
+//Screw standards
+SCREW_STANDARD_M1=0;
+SCREW_STANDARD_M1p5=1;
+SCREW_STANDARD_M2=2;
+SCREW_STANDARD_M2p5=3;
+SCREW_STANDARD_M3=4;
+SCREW_STANDARD_M3p5=5;
+SCREW_STANDARD_M4=6;
+SCREW_STANDARD_M4p5=7;
+SCREW_STANDARD_M5=8;
+SCREW_STANDARD_M5p5=9;
+SCREW_STANDARD_M6=10;
+SCREW_STANDARD_M6p5=11;
+SCREW_STANDARD_M7=12;
+SCREW_STANDARD_M7p5=13;
+SCREW_STANDARD_M8=14;
+SCREW_STANDARD_M8p5=15;
+SCREW_STANDARD_M9=16;
+SCREW_STANDARD_M9p5=17;
+SCREW_STANDARD_M10=18;
+SCREW_STANDARD_M10p5=19;
+
+SCREW_HEAD_DIA=
+//[   M1,   M1p5,   M2,    M2p5
+[1,2,3,4,
+//[   M3,   M3p5,   M4,    M4p5
+5,6,7,8,
+//[   M5,   M5p5,   M6,    M6p5
+8,6,10,8,
+//[   M7,   M7p5,   M8,    M8p5
+5,6,13,8,
+//[   M9,   M9p5,   M10,   M10p5
+5,6,7,8];
+
+NUT_HEIGHT=
+//[   M1,   M1p5,   M2,    M2p5
+[1,2,3,4,
+//[   M3,   M3p5,   M4,    M4p5
+5,6,7,8,
+//[   M5,   M5p5,   M6,    M6p5
+3.5,6,4,8,
+//[   M7,   M7p5,   M8,    M8p5
+5,6,5.2,8,
+//[   M9,   M9p5,   M10,   M10p5
+5,6,7,8];
+
+SCREW_CORE_DIA=
+//[   M1,   M1p5,   M2,    M2p5
+[1,2,3,4,
+//[   M3,   M3p5,   M4,    M4p5
+5,6,7,8,
+//[   M5,   M5p5,   M6,    M6p5
+5.7,6,6.8,8,
+//[   M7,   M7p5,   M8,    M8p5
+5,6,9.2,8,
+//[   M9,   M9p5,   M10,   M10p5
+5,6,7,8];
+
+
+
+
 function make_r_for_screw_standard(r_trap) =
 ((r_trap==2) ? 2.2 : (r_trap==2.5) ? 2.5 : (r_trap==3) ? 3.35 : (r_trap==4) ? 4.2 : (r_trap==6) ? 4.8 : r_trap);
 //Utimaker 2 @ ESOC
@@ -19,7 +80,12 @@ module low_level_hex_hole(h_trap,h_hole,local_r_trap,local_r_hole,rot)
 }
 module hex_hole(h_trap,h_hole,r_trap,rot)
 {
-    low_level_hex_hole(h_trap=h_trap,h_hole=h_hole,local_r_trap=make_r_for_screw_standard(r_trap),local_r_hole=make_r_hole_for_screw_standard(r_trap),rot=rot);
+    low_level_hex_hole
+    (h_trap=h_trap,
+     h_hole=h_hole,
+     local_r_trap=SCREW_HEAD_DIA[r_trap]/2,
+     local_r_hole=SCREW_CORE_DIA[r_trap]/2,
+     rot=rot);
 }
 module hex_hole_exit(h_trap,h_hole,r_trap,rot,l_exit,rot_exit)
 {
