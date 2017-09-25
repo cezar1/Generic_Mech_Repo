@@ -4,7 +4,7 @@ PART_HEIGHT=14;
 PART_WIDTH2=16;
 PART_HEIGHT2=NUT_HEIGHT[SCREW_STANDARD_M6]*2;
 PART_WIDTH3=12;
-PART_HEIGHT3=NUT_HEIGHT[SCREW_STANDARD_M4]*2;
+PART_HEIGHT3=7;
 module hex_test()
 {
 difference()
@@ -99,9 +99,37 @@ rotate([0,0,90])hex_hole(h_trap=NUT_HEIGHT[SCREW_STANDARD_M3],
 }
 }
 }
+module hex_test3p1()
+{
+difference()
+{
+    union()
+    {
+        translate([0,7,0]) cube([PART_WIDTH3,22,PART_HEIGHT3],center=true);
+    }
+ 
+    union()
+    {
+
+color ([1,0,0]){
+translate([0,2,-PART_HEIGHT3/2-0.1])
+rotate([0,0,90])hex_hole(h_trap=NUT_HEIGHT[SCREW_STANDARD_M4],
+         h_hole=PART_HEIGHT3-NUT_HEIGHT[SCREW_STANDARD_M4]+0.15,
+         r_trap=SCREW_STANDARD_M4,
+         rot=0);
+force_hole_h=4;         
+translate([0,12,-PART_HEIGHT3/2-0.1])
+rotate([0,0,90])hex_hole(h_trap=force_hole_h,
+         h_hole=PART_HEIGHT3-force_hole_h+0.15,
+         r_trap=SCREW_STANDARD_M3,
+         rot=0);     
+    }
+}
+}
+}
 //hex_test2();
 //translate([22,0,PART_WIDTH2/2-PART_HEIGHT2/2]) rotate([0,90,0]) hex_test2();
 
-hex_test3();
-translate([22,0,PART_WIDTH3/2-PART_HEIGHT3/2]) rotate([0,90,0]) hex_test3();
+rotate([0,180,0]) hex_test3p1();
+//translate([10,0,PART_WIDTH3/2-PART_HEIGHT3/2]) rotate([0,90,0]) hex_test3p1();
         
