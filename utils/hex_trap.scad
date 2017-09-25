@@ -22,7 +22,7 @@ SCREW_STANDARD_M10p5=19;
 
 SCREW_HEAD_DIA=
 //[   M1,   M1p5,   M2,    M2p5
-[1,2,3,4,
+[1,2,3,4.3,
 //[   M3,   M3p5,   M4,    M4p5
 5.7,6,7,8,
 //[   M5,   M5p5,   M6,    M6p5
@@ -34,7 +34,7 @@ SCREW_HEAD_DIA=
 
 NUT_HEIGHT=
 //[   M1,   M1p5,   M2,    M2p5
-[1,2,3,4,
+[1,2,3,1.8,
 //[   M3,   M3p5,   M4,    M4p5
 2,6,2.8,8,
 //[   M5,   M5p5,   M6,    M6p5
@@ -46,7 +46,7 @@ NUT_HEIGHT=
 
 SCREW_CORE_DIA=
 //[   M1,   M1p5,   M2,    M2p5
-[1,2,3,4,
+[1,2,3,2.4,
 //[   M3,   M3p5,   M4,    M4p5
 3.7,6,5,8,
 //[   M5,   M5p5,   M6,    M6p5
