@@ -24,25 +24,13 @@ SCREW_HEAD_DIA=
 //[   M1,   M1p5,   M2,    M2p5
 [1,2,3,4.3,
 //[   M3,   M3p5,   M4,    M4p5
-6.9,7.35,8.25,8,
+6.7,7.35,8.25,8,
 //[   M5,   M5p5,   M6,    M6p5
 10.25,6,12,8,
 //[   M7,   M7p5,   M8,    M8p5
 5,6,16.5,8,
 //[   M9,   M9p5,   M10,   M10p5
 5,6,20.5,8];
-
-NUT_HEIGHT=
-//[   M1,   M1p5,   M2,    M2p5
-[1,2,3,1.8,
-//[   M3,   M3p5,   M4,    M4p5
-2,6,2.8,8,
-//[   M5,   M5p5,   M6,    M6p5
-4.5,6,5,8,
-//[   M7,   M7p5,   M8,    M8p5
-5,6,7.2,8,
-//[   M9,   M9p5,   M10,   M10p5
-5,6,8.6,8];
 
 SCREW_CORE_DIA=
 //[   M1,   M1p5,   M2,    M2p5
@@ -56,18 +44,42 @@ SCREW_CORE_DIA=
 //[   M9,   M9p5,   M10,   M10p5
 5,6,11,8];
 
+SCREW_HEAD_DIA_HORIZONTAL=
+//[   M1,   M1p5,   M2,    M2p5
+[1,2,3,4.3,
+//[   M3,   M3p5,   M4,    M4p5
+6.8,7.35,8.20,8,
+//[   M5,   M5p5,   M6,    M6p5
+10.25,6,12,8,
+//[   M7,   M7p5,   M8,    M8p5
+5,6,16.5,8,
+//[   M9,   M9p5,   M10,   M10p5
+5,6,20.5,8];
 
+SCREW_CORE_DIA_HORIZONTAL=
+//[   M1,   M1p5,   M2,    M2p5
+[1,2,3,2.4,
+//[   M3,   M3p5,   M4,    M4p5
+3.9,4.2,4.6,8,
+//[   M5,   M5p5,   M6,    M6p5
+5.9,6,6.50,8,
+//[   M7,   M7p5,   M8,    M8p5
+5,6,9.30,8,
+//[   M9,   M9p5,   M10,   M10p5
+5,6,11,8];
 
+NUT_HEIGHT=
+//[   M1,   M1p5,   M2,    M2p5
+[1,2,3,1.8,
+//[   M3,   M3p5,   M4,    M4p5
+2,6,2.8,8,
+//[   M5,   M5p5,   M6,    M6p5
+4.5,6,5,8,
+//[   M7,   M7p5,   M8,    M8p5
+5,6,7.2,8,
+//[   M9,   M9p5,   M10,   M10p5
+5,6,8.6,8];
 
-function make_r_for_screw_standard(r_trap) =
-((r_trap==2) ? 2.2 : (r_trap==2.5) ? 2.5 : (r_trap==3) ? 3.35 : (r_trap==4) ? 4.2 : (r_trap==6) ? 4.8 : r_trap);
-//Utimaker 2 @ ESOC
-//((r_trap==2) ? 2.2 : (r_trap==2.5) ? 2.5 : (r_trap==3) ? 3.2 : (r_trap==4) ? 4.2 : r_trap);
-
-function make_r_hole_for_screw_standard(r_trap) =
-((r_trap==2) ? 1.1 : (r_trap==2.5) ? 1.5 : (r_trap==3) ? 1.75 : (r_trap==4) ? 2.5 : (r_trap==6) ? 3.4 : r_trap);
-//Ultimaker2 @ ESOC
-//((r_trap==2) ? 1.5 : (r_trap==2.5) ? 2 : (r_trap==3) ? 2 : (r_trap==4) ? 2.5 : r_trap);
 module low_level_hex_hole(h_trap,h_hole,local_r_trap,local_r_hole,rot)
 {
     rotate([rot,0,0]) {
@@ -78,13 +90,13 @@ module low_level_hex_hole(h_trap,h_hole,local_r_trap,local_r_hole,rot)
         cylinder(h = h_hole, r = local_r_hole, $fn = 20);
     }
 }
-module hex_hole(h_trap,h_hole,r_trap,rot)
+module hex_hole(h_trap,h_hole,r_trap,rot,horizontal)
 {
     low_level_hex_hole
     (h_trap=h_trap,
      h_hole=h_hole,
-     local_r_trap=SCREW_HEAD_DIA[r_trap]/2,
-     local_r_hole=SCREW_CORE_DIA[r_trap]/2,
+     local_r_trap=(horizontal==0)?SCREW_HEAD_DIA[r_trap]/2:SCREW_HEAD_DIA_HORIZONTAL[r_trap]/2,
+     local_r_hole=(horizontal==0)?SCREW_CORE_DIA[r_trap]/2:SCREW_CORE_DIA_HORIZONTAL[r_trap]/2,
      rot=rot);
 }
 module hex_hole_exit(h_trap,h_hole,r_trap,rot,l_exit,rot_exit)
