@@ -19,6 +19,10 @@ SCREW_STANDARD_M9=16;
 SCREW_STANDARD_M9p5=17;
 SCREW_STANDARD_M10=18;
 SCREW_STANDARD_M10p5=19;
+SCREW_STANDARD_M11=20;
+SCREW_STANDARD_M11p5=21;
+SCREW_STANDARD_M12=22;
+SCREW_STANDARD_M12p5=23;
 
 SCREW_HEAD_DIA=
 //[   M1,   M1p5,   M2,    M2p5
@@ -26,47 +30,55 @@ SCREW_HEAD_DIA=
 //[   M3,   M3p5,   M4,    M4p5
 6.7,7.35,8.25,8,
 //[   M5,   M5p5,   M6,    M6p5
-10.25,6,12,8,
+9.5,6,12,8,
 //[   M7,   M7p5,   M8,    M8p5
-5,6,16.5,8,
+5,6,15.3,8,
 //[   M9,   M9p5,   M10,   M10p5
-5,6,20.5,8];
+5,6,20.5,21,
+//[   M11,  M11p5,  M12,   M12p5
+21.5,21.5,22.5,24];
 
 SCREW_CORE_DIA=
 //[   M1,   M1p5,   M2,    M2p5
 [1,2,3,2.4,
 //[   M3,   M3p5,   M4,    M4p5
-3.9,4.2,4.6,8,
+3.7,4.2,4.6,8,
 //[   M5,   M5p5,   M6,    M6p5
 5.9,6,6.50,8,
 //[   M7,   M7p5,   M8,    M8p5
-5,6,9.30,8,
+5,6,8.2,8,
 //[   M9,   M9p5,   M10,   M10p5
-5,6,11,8];
+5,6,11,11.5,
+//[   M11,  M11p5,  M12,   M12p5
+12,12.5,12.5,13];
 
 SCREW_HEAD_DIA_HORIZONTAL=
 //[   M1,   M1p5,   M2,    M2p5
 [1,2,3,4.3,
 //[   M3,   M3p5,   M4,    M4p5
-6.8,7.35,8.20,8,
+6.75,7.35,8.20,8,
 //[   M5,   M5p5,   M6,    M6p5
-10.25,6,12,8,
+9.5,6,12,8,
 //[   M7,   M7p5,   M8,    M8p5
-5,6,16.5,8,
+5,6,15.3,8,
 //[   M9,   M9p5,   M10,   M10p5
-5,6,20.5,8];
+5,6,20.5,8,
+//[   M11,  M11p5,  M12,   M12p5
+21.5,21.5,22.5,24];
 
 SCREW_CORE_DIA_HORIZONTAL=
 //[   M1,   M1p5,   M2,    M2p5
 [1,2,3,2.4,
 //[   M3,   M3p5,   M4,    M4p5
-3.9,4.2,4.6,8,
+3.7,4.2,4.6,8,
 //[   M5,   M5p5,   M6,    M6p5
 5.9,6,6.50,8,
 //[   M7,   M7p5,   M8,    M8p5
-5,6,9.30,8,
+5,6,8,8,
 //[   M9,   M9p5,   M10,   M10p5
-5,6,11,8];
+5,6,11,8,
+//[   M11,  M11p5,  M12,   M12p5
+12,12.5,12.5,13];
 
 NUT_HEIGHT=
 //[   M1,   M1p5,   M2,    M2p5
@@ -76,9 +88,11 @@ NUT_HEIGHT=
 //[   M5,   M5p5,   M6,    M6p5
 4.5,6,5,8,
 //[   M7,   M7p5,   M8,    M8p5
-5,6,7.2,8,
+5,6,5,8,
 //[   M9,   M9p5,   M10,   M10p5
-5,6,8.6,8];
+5,6,8.6,9,
+//[   M11,  M11p5,  M12,   M12p5
+10,10.5,10,10.5];
 
 module low_level_hex_hole(h_trap,h_hole,local_r_trap,local_r_hole,rot)
 {
@@ -90,9 +104,32 @@ module low_level_hex_hole(h_trap,h_hole,local_r_trap,local_r_hole,rot)
         cylinder(h = h_hole, r = local_r_hole, $fn = 20);
     }
 }
+module low_level_sunk_hole(h_trap,h_hole,local_r_trap,local_r_hole,rot)
+{
+    rotate([rot,0,0]) {
+        translate([0,0,h_hole])
+            {
+                hull()
+                {
+                translate([0,0,h_trap-1]) cylinder(h = 1, r = local_r_trap, $fn = 18);
+                cylinder(h = 1, r = local_r_hole, $fn = 18);    
+                }
+            }
+        cylinder(h = h_hole, r = local_r_hole, $fn = 20);
+    }
+}
 module hex_hole(h_trap,h_hole,r_trap,rot,horizontal)
 {
     low_level_hex_hole
+    (h_trap=h_trap,
+     h_hole=h_hole,
+     local_r_trap=(horizontal==0)?SCREW_HEAD_DIA[r_trap]/2:SCREW_HEAD_DIA_HORIZONTAL[r_trap]/2,
+     local_r_hole=(horizontal==0)?SCREW_CORE_DIA[r_trap]/2:SCREW_CORE_DIA_HORIZONTAL[r_trap]/2,
+     rot=rot);
+}
+module sunk_hole(h_trap,h_hole,r_trap,rot,horizontal)
+{
+    low_level_sunk_hole
     (h_trap=h_trap,
      h_hole=h_hole,
      local_r_trap=(horizontal==0)?SCREW_HEAD_DIA[r_trap]/2:SCREW_HEAD_DIA_HORIZONTAL[r_trap]/2,
